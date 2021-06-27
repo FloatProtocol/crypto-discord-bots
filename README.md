@@ -5,14 +5,13 @@
   <img src="https://user-images.githubusercontent.com/77080072/123562151-bbc83280-d7a4-11eb-9968-d777f3218f21.png" width="100">
 </div>
 
-<h1 align="center">
-  Yellow Submarine: Open Source Discord Bots for Crypto Projects
-</h1>
-
+<h1 align="center">Crypto Discord Bots</h1>
 
 <h3 align="center">
-  See it in action @ <a href="https://discord.gg/nVCZacJJqM">Float Protocol</a> | Open to all | Permissions minimised
+  See it in action @ <a href="https://discord.gg/nVCZacJJqM">Float Protocol</a>
 </h3>
+
+There are many great discord bots out there ([ETH Price Gas Bot](https://github.com/hernandoagf/eth-gas-price-bot) inspired this!), however we wanted to cover a few more common usecases and provide a jumping block for new creative bots.
 
 ## Quickstart
 
@@ -23,8 +22,9 @@
 [See this guide on how to obtain a DISCORD_API_KEY](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token).
 
 ## Example: Gas Bot
-Live Gas Bot, uses GasNow Web Socket for an update every 8s
-
-Add Gas Bot to your server with [OAuth](https://discord.com/oauth2/authorize?client_id=858714564803166248&scope=bot&permissions=67109888).
-
 ![example](https://user-images.githubusercontent.com/77080072/123562351-32b1fb00-d7a6-11eb-95fb-e7a47a17dcd5.gif)
+
+Live Gas Bot, uses GasNow Web Socket for an update every 8s. This works out of the box without any custom deployments.
+
+1. Add Gas Bot to your server with [OAuth](https://discord.com/oauth2/authorize?client_id=858714564803166248&scope=bot&permissions=67109888).
+2. Setup a new "Role" e.g. "On Stage" which you can add your bots to and ensure they can access all the channels you want the bots to be displayed on.
