@@ -2,10 +2,11 @@
   "name": "eth-gas-price-bot",
   "version": "1.0.0",
   "description": "A Discord bot to show Ethereum gas price.",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon --config nodemon.json src/index.ts",
+    "dev:break": "nodemon --config nodemon.json --inspect-brk src/index.ts"
   },
   "keywords": [
     "discord",
@@ -18,15 +19,22 @@
   "dependencies": {
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "ts-node": "^10.0.0"
   },
   "devDependencies": {
+    "@types/node": "^15.12.5",
+    "@types/node-fetch": "^2.5.10",
+    "@typescript-eslint/eslint-plugin": "^4.28.0",
+    "@typescript-eslint/parser": "^4.28.0",
     "eslint": "^7.21.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
+    "node-ts": "^5.1.1",
     "nodemon": "^2.0.7",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "typescript": "^4.3.4"
   }
 }

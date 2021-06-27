@@ -1,7 +1,7 @@
 {
   "name": "eth-gas-price-bot",
   "description": "A Discord bot to show Ethereum gas price.",
-  "repository": "https://github.com/hernandoagf/eth-gas-price-bot",
+  "repository": "https://github.com/floatprotocol/yellow-submarine",
   "logo": "",
   "keywords": ["node", "discord", "ethereum", "gas"],
   "env": {
