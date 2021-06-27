@@ -19,7 +19,7 @@ function fromGwei(gwei: number): string {
 function updateGasPrice(bot: Client, gasData: GasData) {
   const prices = gasData.gasPrices;
   bot.guilds.cache.forEach(async (guild) => {
-    console.log(`Setting gas ${fromGwei(prices.standard)} in ${guild.me}`);
+    console.log(`[gas-bot] Setting gas ${fromGwei(prices.standard)} in ${guild.me}`);
     const botMember = guild.me
     await botMember?.setNickname(`⛽ ${fromGwei(prices.standard)} gwei`)
   })
@@ -36,10 +36,10 @@ export const newGasBot = (): Client => {
 
   // Init logs
   gasBot.on("ready", () => {
-    console.log(`Bot successfully started as ${gasBot.user?.tag} 🤖`)
+    console.log(`[gas-bot] Bot successfully started as '${gasBot.user?.tag}' 🤖`)
   })
   gasWs.onopen = (evt) => {
-    console.log(`Connection open to ${GAS_NOW_WS}...`);
+    console.log(`[gas-bot] Connection open to ${GAS_NOW_WS}...`);
   };
 
   gasWs.onmessage = (evt) => {
