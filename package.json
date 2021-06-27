@@ -20,11 +20,13 @@
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "node-fetch": "^2.6.1",
-    "ts-node": "^10.0.0"
+    "ts-node": "^10.0.0",
+    "ws": "^7.5.0"
   },
   "devDependencies": {
     "@types/node": "^15.12.5",
     "@types/node-fetch": "^2.5.10",
+    "@types/ws": "^7.4.5",
     "@typescript-eslint/eslint-plugin": "^4.28.0",
     "@typescript-eslint/parser": "^4.28.0",
     "eslint": "^7.21.0",
