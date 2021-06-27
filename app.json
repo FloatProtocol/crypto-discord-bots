@@ -1,0 +1,11 @@
+{
+  "name": "eth-gas-price-bot",
+  "description": "A Discord bot to show Ethereum gas price.",
+  "repository": "https://github.com/hernandoagf/eth-gas-price-bot",
+  "logo": "",
+  "keywords": ["node", "discord", "ethereum", "gas"],
+  "env": {
+    "DISCORD_API_TOKEN": "YOUR_DISCORD_API_TOKEN",
+    "TOKEN_ID": "Your Etherscan API key token"
+  }
+}
