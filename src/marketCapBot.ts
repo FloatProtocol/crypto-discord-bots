@@ -16,9 +16,9 @@ function updatePrice(bot: Client, id: string, prices: Prices) {
   }
 
   bot.guilds.cache.forEach(async (guild) => {
-    console.log(`[market-cap-bot: ${id}] Setting market cap $${prices.usd} in ${guild.me}`);
+    console.log(`[market-cap-bot: ${id}] Setting market cap $${Number(prices.usd).toLocaleString()} in ${guild.me}`);
     const botMember = guild.me
-    await botMember?.setNickname(`$${prices.usd}`)
+    await botMember?.setNickname(`$${Number(prices.usd).toLocaleString()}`)
   })
 
   bot.user?.setActivity(
