@@ -7,14 +7,14 @@ dotenv.config()
 
 const GAS_POLLING_INTERVAL = 60 * 1000 // 60 seconds
 
-const client = new Client()
+const gasBot = new Client()
 
-client.on("ready", () => {
-  console.log(`Bot successfully started as ${client.user?.tag} 🤖`)
+gasBot.on("ready", () => {
+  console.log(`Bot successfully started as ${gasBot.user?.tag} 🤖`)
 })
 
 // Updates token price on bot's nickname every X amount of time
-client.setInterval(async () => {
+gasBot.setInterval(async () => {
   const data = await fetchGas()
 
   if (!data) return
@@ -23,16 +23,16 @@ client.setInterval(async () => {
 
   console.log(`Updating gas`);
 
-  client.guilds.cache.forEach(async (guild) => {
+  gasBot.guilds.cache.forEach(async (guild) => {
     console.log(`Setting nickname in ${guild.me}`);
     const botMember = guild.me
     await botMember?.setNickname(`Gas: ${gasPriceGwei} gwei`)
   })
 
-  client.user?.setActivity(
+  gasBot.user?.setActivity(
     `transfer fee: $${gasPriceUsd.toFixed(2)}`,
     { type: "WATCHING" },
   )
 }, GAS_POLLING_INTERVAL)
 
-client.login(process.env.DISCORD_API_TOKEN)
+gasBot.login(process.env.DISCORD_API_TOKEN)
