@@ -1,10 +1,10 @@
 
 import dotenv from "dotenv"
-import { newBlockNumberBot } from "./blockNumberBot";
+import { newBlockNumberBot } from "./blockNumberBot"
 
-import { newGasBot } from "./gasBot";
-import { newMarketCapBot } from "./marketCapBot";
-import { newPriceBot } from "./priceBot";
+import { newGasBot } from "./gasBot"
+import { newMarketCapBot } from "./marketCapBot"
+import { newPriceBot } from "./priceBot"
 
 dotenv.config()
 

@@ -3,7 +3,7 @@ import fetch from "node-fetch"
 
 const COINGECKO_COIN_ENDPOINT = "https://api.coingecko.com/api/v3/coins/{{COIN-ID}}?localization=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
 
-const POLLING_INTERVAL = Number(process.env.POLLING_INTERVAL) || 60 * 1000;
+const POLLING_INTERVAL = Number(process.env.POLLING_INTERVAL) || 60 * 1000
 
 interface Prices {
   eth: number;
@@ -16,7 +16,7 @@ function updatePrice(bot: Client, id: string, prices: Prices) {
   }
 
   bot.guilds.cache.forEach(async (guild) => {
-    console.log(`[price-bot: ${id}] Setting price $${prices.usd} in ${guild.me}`);
+    console.log(`[price-bot: ${id}] Setting price $${prices.usd} in ${guild.me}`)
     const botMember = guild.me
     await botMember?.setNickname(`$${prices.usd}`)
   })
@@ -28,21 +28,21 @@ function updatePrice(bot: Client, id: string, prices: Prices) {
 }
 
 export const newPriceBot = (id: string): Client => {
-  const bot = new Client();
+  const bot = new Client()
 
   bot.on("ready", () => {
     console.log(`[price-bot: ${id}] Bot successfully started as '${bot.user?.tag}' 🤖`)
   })
   bot.setInterval(async () => {
     if (!bot.readyAt) {
-      return;
+      return
     }
 
     try {
-      const { market_data } = await (await fetch(COINGECKO_COIN_ENDPOINT.replace("{{COIN-ID}}", id))).json();
-      updatePrice(bot, id, market_data?.current_price);
+      const { market_data } = await (await fetch(COINGECKO_COIN_ENDPOINT.replace("{{COIN-ID}}", id))).json()
+      updatePrice(bot, id, market_data?.current_price)
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
   }, POLLING_INTERVAL)
 

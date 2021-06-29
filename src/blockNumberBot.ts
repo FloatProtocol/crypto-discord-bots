@@ -1,12 +1,12 @@
 import { Client } from "discord.js"
 import fetch from "node-fetch"
 
-const ETHERSCAN_BLOCK_NUMBER = `https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=${process.env.ETHERSCAN_API_KEY}`;
+const ETHERSCAN_BLOCK_NUMBER = `https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=${process.env.ETHERSCAN_API_KEY}`
 
-const POLLING_INTERVAL = Number(process.env.POLLING_INTERVAL) || 60 * 1000;
+const POLLING_INTERVAL = Number(process.env.POLLING_INTERVAL) || 60 * 1000
 
 function fromHex(block: string): string {
-  return parseInt(block, 16).toLocaleString();
+  return parseInt(block, 16).toLocaleString()
 }
 
 function updateBlock(bot: Client, blockNumber?: string) {
@@ -15,13 +15,13 @@ function updateBlock(bot: Client, blockNumber?: string) {
   }
 
   bot.guilds.cache.forEach(async (guild) => {
-    console.log(`[block-bot] Setting block ${fromHex(blockNumber)} in ${guild.me}`);
+    console.log(`[block-bot] Setting block ${fromHex(blockNumber)} in ${guild.me}`)
     const botMember = guild.me
     await botMember?.setNickname(`⧫ ${fromHex(blockNumber)}`)
   })
 
   bot.user?.setActivity(
-    `Block Number`,
+    "Block Number",
     { type: "PLAYING" },
   )
 }
@@ -35,15 +35,15 @@ export const newBlockNumberBot = (): Client => {
 
   bot.setInterval(async () => {
     if (!bot.readyAt) {
-      return;
+      return
     }
 
     try {
-      const data = await (await fetch(ETHERSCAN_BLOCK_NUMBER)).json();
+      const data = await (await fetch(ETHERSCAN_BLOCK_NUMBER)).json()
       
-      updateBlock(bot, data?.result);
+      updateBlock(bot, data?.result)
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
   }, POLLING_INTERVAL)
 
