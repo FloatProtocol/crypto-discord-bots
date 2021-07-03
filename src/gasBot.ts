@@ -1,8 +1,10 @@
 import { Client } from "discord.js"
 import WebSocket from "ws"
+import { logReadiness, respondToReport } from "./commands/helpers"
 
+const BOT_NAME = "gas-bot"
 const GAS_NOW_WS ="wss://www.gasnow.org/ws"
-const RECONNECT_INTERVAL = 60 * 1000;
+const RECONNECT_INTERVAL = 60 * 1000
 
 interface GasData {
   gasPrices: {
@@ -32,12 +34,14 @@ function updateGasPrice(bot: Client, gasData: GasData) {
 }
 
 export const newGasBot = (): Client => {
-  const gasBot = new Client()
+  const bot = new Client()
+  logReadiness(bot, BOT_NAME)
+  respondToReport(bot, BOT_NAME)
 
   const connect = function() {
     const ws = new WebSocket(GAS_NOW_WS)
     ws.onopen = () => {
-      console.log(`[gas-bot] Connection open to ${GAS_NOW_WS}...`)
+      console.log(`[${BOT_NAME}] Connection open to ${GAS_NOW_WS}...`)
     }
   
     ws.onmessage = (evt) => {
@@ -45,7 +49,7 @@ export const newGasBot = (): Client => {
       const data = JSON.parse(dataStr.toString())
   
       if (data.type) {
-        updateGasPrice(gasBot, data.data)
+        updateGasPrice(bot, data.data)
       }
     }
   
@@ -55,11 +59,11 @@ export const newGasBot = (): Client => {
     }
   }
 
-  gasBot.on("ready", () => {
-    console.log(`[gas-bot] Bot successfully started as '${gasBot.user?.tag}' 🤖`)
+  bot.on("ready", () => {
+    console.log(`[${BOT_NAME}] Starting WS connection`)
     connect()
   })
  
 
-  return gasBot
+  return bot
 }

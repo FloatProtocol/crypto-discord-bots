@@ -1,5 +1,6 @@
 import { Client } from "discord.js"
 import fetch from "node-fetch"
+import { logReadiness, respondToReport } from "./commands/helpers"
 
 const COINGECKO_COIN_ENDPOINT = "https://api.coingecko.com/api/v3/coins/{{COIN-ID}}?localization=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
 
@@ -29,10 +30,10 @@ function updatePrice(bot: Client, id: string, prices: Prices) {
 
 export const newMarketCapBot = (id: string): Client => {
   const bot = new Client()
+  const botName = `market-cap-bot: ${id}`
+  logReadiness(bot, botName)
+  respondToReport(bot, botName)
 
-  bot.on("ready", () => {
-    console.log(`[market-cap-bot: ${id}] Bot successfully started as '${bot.user?.tag}' 🤖`)
-  })
   bot.setInterval(async () => {
     if (!bot.readyAt) {
       return

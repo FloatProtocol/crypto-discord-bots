@@ -1,9 +1,11 @@
 import { Client } from "discord.js"
 import fetch from "node-fetch"
+import { logReadiness, respondToReport } from "./commands/helpers"
 
 const ETHERSCAN_BLOCK_NUMBER = `https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=${process.env.ETHERSCAN_API_KEY}`
 
 const POLLING_INTERVAL = Number(process.env.POLLING_INTERVAL) || 60 * 1000
+const BOT_NAME = "block-bot"
 
 function fromHex(block: string): string {
   return parseInt(block, 16).toLocaleString()
@@ -15,7 +17,7 @@ function updateBlock(bot: Client, blockNumber?: string) {
   }
 
   bot.guilds.cache.forEach(async (guild) => {
-    console.log(`[block-bot] Setting block ${fromHex(blockNumber)} in ${guild.me}`)
+    console.log(`[${BOT_NAME}] Setting block ${fromHex(blockNumber)} in ${guild.me}`)
     const botMember = guild.me
     await botMember?.setNickname(`⧫ ${fromHex(blockNumber)}`)
   })
@@ -28,10 +30,8 @@ function updateBlock(bot: Client, blockNumber?: string) {
 
 export const newBlockNumberBot = (): Client => {
   const bot = new Client()
-  // Init logs
-  bot.on("ready", () => {
-    console.log(`[gas-bot] Bot successfully started as '${bot.user?.tag}' 🤖`)
-  })
+  logReadiness(bot, BOT_NAME)
+  respondToReport(bot, BOT_NAME)
 
   bot.setInterval(async () => {
     if (!bot.readyAt) {
