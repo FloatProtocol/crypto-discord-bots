@@ -38,6 +38,8 @@ async function constructEmbed(auctionHouse: Contract, additional?: AdditionalInf
   const latestAuction = await auctionHouse.auctions(round)
   const step = await auctionHouse.step()
 
+  console.log(`[${BOT_NAME}] Constructing Embed with: `, latestAuction, additional)
+
   const stabilisationHeader = STABILISATION_HEADERS[latestAuction.stabilisationCase as 0 | 1 | 2 | 3]
 
   const timeSignal = step >= 150
@@ -64,14 +66,17 @@ async function constructEmbed(auctionHouse: Contract, additional?: AdditionalInf
 }
 
 async function updateAuctionOrSend(auctionHouse: Contract, channel: TextChannel, bot: Client, additional?: AdditionalInformation) {
+
   const embed = await constructEmbed(auctionHouse, additional)
-  channel.messages.fetch({ limit: 5 }).then(messages => {
+  channel.messages.fetch({ limit: 10 }).then(messages => {
     const lastMessage = messages.find((message) => message.author.discriminator === bot.user?.discriminator)
 
     const lastMessageWasThisRound = additional?.round && lastMessage?.embeds?.[0]?.title?.includes(additional.round)
     if (lastMessage && lastMessageWasThisRound) {
+      console.log(`[${BOT_NAME}] Editing previous message`)
       lastMessage.edit(embed)
     } else {
+      console.log(`[${BOT_NAME}] Sending a new message`)
       channel.send(embed)
     }
   })
@@ -99,18 +104,19 @@ export const newAuctioneerBot = (): Client | undefined => {
     })
 
     const updateFor150Blocks = async (blockNumber: BigNumberish) => {
-      console.log(`@ Block ${blockNumber.toLocaleString()}`)
+      console.log(`@ Block ${blockNumber.toLocaleString()} - ${BigNumber.from(startBlock).sub(blockNumber)}/150`)
       updateAuctionOrSend(auctionHouseContract, auctionChannel, bot, {
         round,
         blockNumber: startBlock,
       })
 
-      if (BigNumber.from(startBlock).sub(blockNumber).gt(150)) {
+      if (!startBlock || !blockNumber || BigNumber.from(startBlock).sub(blockNumber).gt(150)) {
         provider.off("block", updateFor150Blocks)
       }
     }
 
     provider.on("block", updateFor150Blocks)
+    setTimeout(() => { console.log("Hard stop after 1 hour"); provider.off("block", updateFor150Blocks) }, 60 * 60 * 1000)
   })
 
   bot.on("message", async (message) => {
